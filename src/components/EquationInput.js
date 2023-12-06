@@ -3,7 +3,7 @@
 import { useState } from "react"
 import ParameterInput from "./ParameterInput" // Assurez-vous que le chemin d'importation est correct
 
-export default function EquationInput() {
+export default function EquationInput({ onEquationSubmit }) {
   const [equation, setEquation] = useState("")
   const [parameters, setParameters] = useState({})
 
@@ -14,14 +14,13 @@ export default function EquationInput() {
   const handleParametersChange = (newParameters) => {
     setParameters(newParameters)
   }
-
   const handleSubmit = () => {
     const data = {
       Equation: equation,
       Parameter: parameters,
     }
-    // Ici, vous pouvez effectuer le fetch pour envoyer 'data' à votre API
-    console.log(data) // Pour le debug, à remplacer par l'appel API
+
+    onEquationSubmit(data)
   }
 
   return (
