@@ -6,9 +6,13 @@ export default function ParameterInput({ onParametersChange }) {
   const [order, setOrder] = useState("first")
   const [initialCondition, setInitialCondition] = useState("")
   const [secondInitialCondition, setSecondInitialCondition] = useState("")
-  const [variableName, setVariableName] = useState("y")
+  const [functionName, setFunctionName] = useState("y")
   const [variables, setVariables] = useState([{ name: "", value: "" }])
-  const [parameters, setParameters] = useState({})
+  const [parameters, setParameters] = useState({
+    functionName: functionName,
+    t_span: [0, 10],
+    t_eval: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 10],
+  })
 
   const updateParameters = (newParams) => {
     const updatedParameters = { ...parameters, ...newParams }
@@ -68,10 +72,10 @@ export default function ParameterInput({ onParametersChange }) {
           Nom de la fonction
         </label>
         <select
-          value={variableName}
+          value={functionName}
           onChange={(e) => {
-            setVariableName(e.target.value)
-            updateParameters({ variableName: e.target.value })
+            setFunctionName(e.target.value)
+            updateParameters({ functionName: e.target.value })
           }}
           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
           <option value="x">x</option>
@@ -82,7 +86,7 @@ export default function ParameterInput({ onParametersChange }) {
 
       <div className="mb-4">
         <label className="block text-sm font-medium text-gray-700">
-          {variableName}(0) =
+          {functionName}(0) =
         </label>
         <input
           type="text"
@@ -101,7 +105,7 @@ export default function ParameterInput({ onParametersChange }) {
           <label
             htmlFor="secondInitialCondition"
             className="block text-sm font-medium text-gray-700">
-            {variableName}'(0) =
+            {functionName}'(0) =
           </label>
           <input
             type="text"
