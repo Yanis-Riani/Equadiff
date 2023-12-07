@@ -25,3 +25,8 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+input,
+select {
+  @apply border-2 border-blue-400 pl-2;
+}

@@ -16,11 +16,12 @@ export default function EquationInput({ onEquationSubmit }) {
   }
   const handleSubmit = () => {
     const data = {
-      Equation: equation,
+      Equation: equation ? equation : "y'-2*x*y+y^2=5-x^2",
       Parameter: parameters,
     }
 
     onEquationSubmit(data)
+    console.log(data)
   }
 
   return (

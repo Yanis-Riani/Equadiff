@@ -1,31 +1,40 @@
 import path from "path"
 import { PythonShell } from "python-shell"
 
-export async function POST(request, response) {
+export async function POST(request) {
   const requestData = await request.json()
-  console.log("args : ", JSON.stringify(requestData))
+  let scriptPath = path.join(process.cwd(), "src/python")
 
-  return new Promise((resolve, reject) => {
-    let scriptPath = path.join(process.cwd(), "src/python")
+  let options = {
+    mode: "text",
+    pythonOptions: ["-u"], // Pour forcer le mode "unbuffered" du stdout
+    scriptPath: scriptPath,
+    args: [JSON.stringify(requestData)],
+  }
 
-    console.log(scriptPath)
+  try {
+    const results = await new Promise((resolve, reject) => {
+      let result = ""
+      let pyshell = new PythonShell("solver.py", options)
 
-    let options = {
-      mode: "text",
-      pythonOptions: ["-u"],
-      scriptPath: scriptPath,
-      args: [JSON.stringify(requestData)],
-    }
+      pyshell.on("message", function (message) {
+        result += message
+      })
 
-    PythonShell.run("solver.py", options, (err, results) => {
-      if (err) {
-        console.error(err)
-        response.status(500).send("Internal Server Error")
-        reject(err)
-      } else {
-        response.json({ results: results })
-        resolve()
-      }
+      pyshell.on("stderr", function (stderr) {
+        console.log(stderr)
+      })
+
+      pyshell.end(function (err, code, signal) {
+        if (err) reject(err)
+        resolve(result)
+      })
     })
-  })
+    return Response.json(JSON.parse(results))
+  } catch (error) {
+    console.error(error)
+    return new Response("Error parsing Python script output", {
+      status: 500,
+    })
+  }
 }

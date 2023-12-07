@@ -13,7 +13,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="fr">
       <body className={inter.className}>
-        <div className="container mx-auto p-4">
+        <div className="container mx-auto p-4 gap-4">
           <h1 className="text-2xl font-bold text-center mt-5 mb-10">
             Modélisation d'Équations Différentielles
           </h1>

@@ -66,33 +66,30 @@ def parse_initial_conditions(initial_conditions:list, y, x, order:int) -> dict:
     return initial_conditions_dict
 
 def generate_graph_data(solution, parameters, integration_constant):
-    try:
-        x = sp.symbols(parameters["unknownName"])
-        y_func = solution.rhs.subs({'C1': integration_constant})  # Utiliser la constante d'intégration
-        x_values = np.linspace(parameters["range"][0], parameters["range"][1], parameters["ptnumber"])  # Générer 100 points
-        y_values = [y_func.subs(x, val) for val in x_values]  # Évaluer la solution pour chaque point x
+    x = sp.symbols(parameters["unknownName"])
+    y_func = solution.rhs.subs({'C1': integration_constant})  # Utiliser la constante d'intégration
+    x_values = np.linspace(parameters["range"][0], parameters["range"][1], 100)  # Générer 100 points
+    y_values = [y_func.subs(x, val) for val in x_values]  # Évaluer la solution pour chaque point x
 
-        # Préparer les données pour Recharts
-        graph_data = [{"x": float(x_val), "y": float(y_val)} for x_val, y_val in zip(x_values, y_values)]
-        return graph_data
-    except:
-        return []
+    # Préparer les données pour Recharts
+    graph_data = [{"x": float(x_val), "y": float(y_val)} for x_val, y_val in zip(x_values, y_values)]
+    return graph_data
 
 
-# data = {
-#     "Equation": "y'-a*x*y+y^e=5-x^2",
-#     "Parameter": {
-#         "functionName": "y",
-#         "unknownName": "x",
-#         "range": [0, 10],
-#         "initialConditions": [],
-#         "integrationConstant": 2,
-#         "variables": [{"name": "a", "value": "2"}, {"name": "e", "value": "2"}]
-#     }
-# }
+data = {
+    "Equation": "y'-a*x*y+y^e=5-x^2",
+    "Parameter": {
+        "functionName": "y",
+        "unknownName": "x",
+        "range": [0, 10],
+        "initialConditions": [],
+        "integrationConstant": 2,
+        "variables": [{"name": "a", "value": "2"}, {"name": "e", "value": "2"}]
+    }
+}
 
 # Récupérer les données JSON passées en argument
-data = json.loads(sys.argv[1])
+# data = json.loads(sys.argv[1])
 
 # Extraction de l'équation et des paramètres
 equation_str = data["Equation"]
@@ -104,10 +101,13 @@ solution = solve_differential_equation(equation_str, parameters)
 # Affichage des résultats
 # print(sp.latex(solution))
 # print(solution.rhs)
-try:
-    graphdata = generate_graph_data(solution, data["Parameter"], data["Parameter"]["integrationConstant"])
+graphdata = generate_graph_data(solution, data["Parameter"], data["Parameter"]["integrationConstant"])
 
-    # Vous pouvez également convertir la solution en une réponse JSON si nécessaire
-    print(json.dumps({"solution": str(solution), "latex": str(sp.latex(solution)), "graphdata": graphdata}))
-except:
-    print(json.dumps({"solution": str(solution), "latex": str(sp.latex(solution)), "graphdata": []}))
+output = {
+    "solution": str(solution.rhs),
+    "latex": str(sp.latex(solution)),
+    "graphdata": graphdata  # Gardez graphdata sous forme de liste d'objets
+}
+
+# Imprimez le JSON sérialisé
+print(json.dumps(output))
