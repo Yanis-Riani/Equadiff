@@ -44,7 +44,7 @@ export default function Visualization({ data, equation }) {
             type="monotone"
             dataKey="y"
             stroke="#8884d8"
-            activeDot={{ r: 100 }}
+            activeDot={{ r: 5 }}
           />
         </LineChart>
       </div>
