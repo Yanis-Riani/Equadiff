@@ -104,9 +104,9 @@ export default function ParameterInput({ onParametersChange }) {
             updateParameters({ functionName: e.target.value })
           }}
           className="mt-1 mb-2 block w-full rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
-          <option value="x">x</option>
+          <option value="x">f</option>
           <option value="y">y</option>
-          <option value="z">z</option>
+          <option value="z">u</option>
         </select>
         <label className="block text-sm font-medium text-gray-700">
           Nom de l'inconue
@@ -119,8 +119,8 @@ export default function ParameterInput({ onParametersChange }) {
           }}
           className="mt-1 mb-2 block w-full rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
           <option value="x">x</option>
-          <option value="y">y</option>
-          <option value="z">z</option>
+          <option value="y">a</option>
+          <option value="z">b</option>
         </select>
       </div>
       <div className="flex gap-4 mb-4 items-center justify-items-start">

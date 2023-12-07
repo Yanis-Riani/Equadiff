@@ -21,7 +21,6 @@ export default function EquationInput({ onEquationSubmit }) {
     }
 
     onEquationSubmit(data)
-    console.log(data)
   }
 
   return (

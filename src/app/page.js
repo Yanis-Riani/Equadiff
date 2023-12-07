@@ -24,33 +24,8 @@ export default function MainPage() {
         throw new Error(`HTTP error! status: ${response.status}`)
       }
 
-      console.log(response)
-
       const result = await response.json()
-      console.log(result) // Ici, vous pouvez traiter la réponse, par exemple, en mettant à jour l'état pour afficher les graphiques
       setEquationResult(result)
-    } catch (e) {
-      console.error("There was a problem with the fetch operation:", e)
-    }
-  }
-
-  const fetchGraph = async (graphParameter) => {
-    try {
-      const response = await fetch("http://localhost:3000/api/graph", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(graphParameter),
-      })
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`)
-      }
-
-      const result = await response.json()
-      console.log(result) // Ici, vous pouvez traiter la réponse, par exemple, en mettant à jour l'état pour afficher les graphiques
-      setGraphResult(result)
     } catch (e) {
       console.error("There was a problem with the fetch operation:", e)
     }

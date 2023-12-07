@@ -39,11 +39,13 @@ def find_highest_order_derivative(equation, function_name):
 def compute_differential_equation(equation:str, parameters:dict):
     
     order = find_highest_order_derivative(equation, parameters["functionName"])
+    print(order)
 
     x = sp.symbols(parameters["unknownName"])
     y = sp.Function(parameters["functionName"])(x)
     
     equation = format_differential_equation(equation, parameters, x, y, order)
+    print(equation)
     
     initial_conditions = format_initial_conditions(parameters["initialConditions"], y, x, order)
 
@@ -78,21 +80,21 @@ def generate_graph_data(solution, parameters, integration_constant):
         return []
 
 
-# data = {
-#     "Equation": "y'-a*x*y+y^e=5-x^2",
-#     "Parameter": {
-#         "functionName": "y",
-#         "unknownName": "x",
-#         "range": [0, 10],
-#         "ptnumber": 100,
-#         "initialConditions": [],
-#         "integrationConstant": 2,
-#         "variables": [{"name": "a", "value": "2"}, {"name": "e", "value": "2"}]
-#     }
-# }
+data = {
+    "Equation": "y'-a*x*y+y^e=5-x^2",
+    "Parameter": {
+        "functionName": "y",
+        "unknownName": "x",
+        "range": [0, 10],
+        "ptnumber": 100,
+        "initialConditions": [],
+        "integrationConstant": 2,
+        "variables": [{"name": "a", "value": "2"}, {"name": "e", "value": "2"}]
+    }
+}
 
 # Récupérer les données JSON passées en argument
-data = json.loads(sys.argv[1])
+# data = json.loads(sys.argv[1])
 
 # Extraction de l'équation et des paramètres
 equation_str = data["Equation"]

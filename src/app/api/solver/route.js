@@ -27,10 +27,10 @@ export async function POST(request) {
 
       pyshell.end(function (err, code, signal) {
         if (err) reject(err)
-        resolve(result)
+        resolve(JSON.parse(result))
       })
     })
-    return Response.json(JSON.parse(results))
+    return Response.json(results)
   } catch (error) {
     console.error(error)
     return new Response("Error parsing Python script output", {
